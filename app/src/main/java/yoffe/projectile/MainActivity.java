@@ -9,12 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class MainActivity extends AppCompatActivity {
-    private TextView angle;
+
     private EditText angleInput;
-    private TextView velocity;
     private EditText velocityInput;
-    private TextView time;
     private EditText timeInput;
     private Button projectile;
     private TextView answer;
@@ -24,29 +24,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        angle = (TextView)findViewById(R.id.angle);
-        angleInput = (EditText)findViewById(R.id.angleInput);
-        velocity = (TextView)findViewById(R.id.velocity);
-        velocityInput = (EditText)findViewById(R.id.velocityInput);
-        time = (TextView)findViewById(R.id.time);
-        timeInput = (EditText)findViewById(R.id.timeInput);
-        projectile = (Button)findViewById(R.id.projectile);
-        answer = (TextView)findViewById(R.id.answer);
+        angleInput = (EditText) findViewById(R.id.angleInput);
+        velocityInput = (EditText) findViewById(R.id.velocityInput);
+        timeInput = (EditText) findViewById(R.id.timeInput);
+        projectile = (Button) findViewById(R.id.projectile);
+        answer = (TextView) findViewById(R.id.answer);
+        Picasso.with(this).load("http://i.imgur.com/DvpvklR.png").into(imageView);
 
-        projectile.setOnClickListener(new View.OnClickListener(){
+        projectile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double radians = Math.toRadians(Double.parseDouble(angleInput.getText().toString()));
+                double radians = Double.parseDouble(angleInput.getText().toString());
                 double velocity = Double.parseDouble(velocityInput.getText().toString());
-                double time=Double.parseDouble(timeInput.getText().toString());
-                double x =getX(radians, velocity, time);
-                double y=getY(radians, velocity, time);
+                double time = Double.parseDouble(timeInput.getText().toString());
+                Projectile proj = new Projectile(radians, velocity, time);
+                double x = proj.getX();
+                double y = proj.getY();
 
-                StringBuilder builder = new StringBuilder();
-                builder.append(x);
-                builder.append(", ");
-                builder.append(y);
-                answer.setText(builder.toString());
+                answer.setText(x + ", " + y);
             }
         });
     }
@@ -71,14 +66,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private double getY(double radians, double velocity, double time) {
-        return Math.cos(radians) * velocity * time - (1 / 2 * 9.8 * time * time);
-    }
-
-
-    private double getX(double radians, double velocity, double time) {
-        return Math.sin(radians) * velocity * time;
     }
 }
