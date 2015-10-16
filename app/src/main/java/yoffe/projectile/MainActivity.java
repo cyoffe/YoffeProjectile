@@ -7,8 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText angleInput;
     private EditText velocityInput;
     private EditText timeInput;
-    private Button projectile;
     private TextView answer;
 
     @Override
@@ -27,9 +26,12 @@ public class MainActivity extends AppCompatActivity {
         angleInput = (EditText) findViewById(R.id.angleInput);
         velocityInput = (EditText) findViewById(R.id.velocityInput);
         timeInput = (EditText) findViewById(R.id.timeInput);
-        projectile = (Button) findViewById(R.id.projectile);
+        Button projectile = (Button) findViewById(R.id.projectile);
         answer = (TextView) findViewById(R.id.answer);
-        Picasso.with(this).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+        ImageView image = (ImageView) findViewById(R.id.image);
+        Picasso.with(this)
+                .load("http://www.physicsclassroom.com/Class/vectors/u3l2b3.gif")
+                .into(image);
 
         projectile.setOnClickListener(new View.OnClickListener() {
             @Override
