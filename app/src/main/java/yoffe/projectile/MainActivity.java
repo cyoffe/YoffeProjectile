@@ -1,5 +1,6 @@
 package yoffe.projectile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText angleInput;
     private EditText velocityInput;
     private EditText timeInput;
-    private TextView answer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         velocityInput = (EditText) findViewById(R.id.velocityInput);
         timeInput = (EditText) findViewById(R.id.timeInput);
         Button projectile = (Button) findViewById(R.id.projectile);
-        answer = (TextView) findViewById(R.id.answer);
         ImageView image = (ImageView) findViewById(R.id.image);
         Picasso.with(this)
                 .load("http://www.physicsclassroom.com/Class/vectors/u3l2b3.gif")
@@ -36,16 +35,26 @@ public class MainActivity extends AppCompatActivity {
         projectile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double radians = Double.parseDouble(angleInput.getText().toString());
-                double velocity = Double.parseDouble(velocityInput.getText().toString());
-                double time = Double.parseDouble(timeInput.getText().toString());
-                Projectile proj = new Projectile(radians, velocity, time);
-                double x = proj.getX();
-                double y = proj.getY();
-
-                answer.setText(x + ", " + y);
+                showAnswer();
             }
         });
+    }
+
+    private void showAnswer() {
+        double radians = Double.parseDouble(angleInput.getText().toString());
+        double velocity = Double.parseDouble(velocityInput.getText().toString());
+        double time = Double.parseDouble(timeInput.getText().toString());
+
+
+
+
+        Intent intent = new Intent(this, AnswerActivity.class);
+        intent.putExtra("ANGLE", radians);
+        intent.putExtra("VELOCITY", velocity);
+        intent.putExtra("TIME", time);
+        startActivity(intent);
+
+
     }
 
     @Override
